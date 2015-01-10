@@ -52,3 +52,15 @@ docs/_build/
 
 # PyBuilder
 target/
+
+
+# Emacs
+
+# Ignore emacs temp files
+*~
+*.*~
+*[#]*[#]
+.[#]*
+
+# Project specific
+parsetab.py
