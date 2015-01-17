@@ -3,6 +3,10 @@
 from src.parser import parse
 
 # TODO: Lolhardcoded
-ast = parse("/home/nathan/Code/thesaurise/tests/test.cs")
+for f in ['test.cs', 'test2.cs', 'test3.cs']:
+    ast = parse('tests/' + f)
+    print(ast)
+    print('\n')
 
-print(ast)
+
+

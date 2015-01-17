@@ -7,12 +7,13 @@ from src.rules import *
 
 
 def parse(filename):
-    logger = yacc.NullLogger()
-    #logger = yacc.PlyLogger(sys.stderr)
+    print('About to parse ' + filename)
+    #logger = yacc.NullLogger()
+    logger = yacc.PlyLogger(sys.stderr)
     
     yacc.yacc(debug=logger, errorlog=logger)
 
-    filename = "tests/test.cs"
+#    filename = "tests/test.cs"
     f = open(filename, "r")
     data = f.read();
     f.close();

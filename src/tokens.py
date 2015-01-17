@@ -2,12 +2,25 @@ import lib.ply.lex as lex
 from pprint import pprint
 
 tokens = (
+    'IDENTIFIER',
     'MAGIC_NUMBER',
-    'DOT',
+#    'NOTHING',
+
+    # Keywords
     'NAMESPACE',
+    'USING',
+    'EXTERN',
+    'ALIAS',
+    'CLASS',
+    'STRUCT',
+    'INTERFACE',
+    'ENUM',
+    'DELEGATE',
+
+    # Symbols
     'OPEN_BRACKET',
     'CLOSE_BRACKET',
-    'IDENTIFIER',
+    'DOT',    
     )
 
 
@@ -23,13 +36,57 @@ def t_NAMESPACE(t):
     return t
 
 
+def t_USING(t):
+    r'using'
+
+    return t;
+
+def t_EXTERN(t):
+    r'extern'
+
+    return t;
+
+def t_ALIAS(t):
+    r'alias'
+
+    return t;
+
+def t_CLASS(t):
+    r'class'
+
+    return t;
+
+def t_STRUCT(t):
+    r'struct'
+
+    return t;
+
+def t_INTERFACE(t):
+    r'interface'
+
+    return t;
+
+def t_ENUM(t):
+    r'enum'
+
+    return t;
+
+def t_DELEGATE(t):
+    r'delegate'
+
+    return t;
+
+
 # Quite restrictive
 def t_IDENTIFIER(t):
     r'[A-Za-z]+'
 
     return t
     
-    
+# def t_NOTHING(t):
+#     r''
+
+#     return t
 
 # # A regular expression rule with some action code
 # def t_NUMBER(t):
