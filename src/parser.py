@@ -8,6 +8,7 @@ from src.rules import *
 
 def parse(filename):
     logger = yacc.NullLogger()
+    #logger = yacc.PlyLogger(sys.stderr)
     
     yacc.yacc(debug=logger, errorlog=logger)
 

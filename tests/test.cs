@@ -1,3 +1,3 @@
-namespace Aaa.B
+namespace System.Linq 
 {
 }

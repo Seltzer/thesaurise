@@ -2,22 +2,34 @@ import lib.ply.lex as lex
 from pprint import pprint
 
 tokens = (
-    'IDENTIFIER',
     'MAGIC_NUMBER',
     'DOT',
     'NAMESPACE',
     'OPEN_BRACKET',
-    'CLOSE_BRACKET'
+    'CLOSE_BRACKET',
+    'IDENTIFIER',
     )
 
-# Quite restrictive
-t_IDENTIFIER = r'[A-Za-z]+'
+
 t_MAGIC_NUMBER = r'42'
 t_DOT = r'\.'
-t_NAMESPACE = r'namespace'
 t_OPEN_BRACKET = r'{'
 t_CLOSE_BRACKET = r'}'
 
+
+def t_NAMESPACE(t):
+    r'namespace'
+
+    return t
+
+
+# Quite restrictive
+def t_IDENTIFIER(t):
+    r'[A-Za-z]+'
+
+    return t
+    
+    
 
 # # A regular expression rule with some action code
 # def t_NUMBER(t):
