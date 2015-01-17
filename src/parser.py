@@ -2,8 +2,8 @@ import sys, os
 
 from subprocess import Popen, PIPE
 from lib.ply import yacc,lex
-from tokens import *
-from rules import *
+from src.tokens import *
+from src.rules import *
 
 
 def parse(filename):
@@ -11,7 +11,7 @@ def parse(filename):
     
     yacc.yacc(debug=logger, errorlog=logger)
 
-    filename = "/home/nathan/Code/thesaurise/tests/test"
+    filename = "tests/test.cs"
     f = open(filename, "r")
     data = f.read();
     f.close();
