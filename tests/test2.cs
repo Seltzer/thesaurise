@@ -1,4 +1,4 @@
 namespace System.Linq 
 {
-    extern alias Horatio
+    extern alias Horatio;
 }

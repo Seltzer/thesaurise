@@ -7,13 +7,23 @@ tokens = [
     # Symbols
     'OPEN_BRACKET',
     'CLOSE_BRACKET',
-    'DOT',    
+    'SEMICOLON',
+    'DOT',
+    'EQUALS',
+    'GT',
+    'LT',
+    'COLON'
     ]
 
 
 t_DOT = r'\.'
 t_OPEN_BRACKET = r'{'
 t_CLOSE_BRACKET = r'}'
+t_SEMICOLON = r';'
+t_EQUALS = r'='
+t_GT = r'>'
+t_LT = r'<'
+t_COLON = r':'
 
 reserved_words = {
     'abstract' : 'ABSTRACT',
