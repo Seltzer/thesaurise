@@ -1,98 +1,51 @@
 import lib.ply.lex as lex
 from pprint import pprint
 
-tokens = (
+tokens = [
     'IDENTIFIER',
-    'MAGIC_NUMBER',
-#    'NOTHING',
-
-    # Keywords
-    'NAMESPACE',
-    'USING',
-    'EXTERN',
-    'ALIAS',
-    'CLASS',
-    'STRUCT',
-    'INTERFACE',
-    'ENUM',
-    'DELEGATE',
 
     # Symbols
     'OPEN_BRACKET',
     'CLOSE_BRACKET',
     'DOT',    
-    )
+    ]
 
 
-t_MAGIC_NUMBER = r'42'
 t_DOT = r'\.'
 t_OPEN_BRACKET = r'{'
 t_CLOSE_BRACKET = r'}'
 
+reserved_words = {
+    'abstract' : 'ABSTRACT',
+    'alias' : 'ALIAS',
+    'class' : 'CLASS',
+    'delegate' : 'DELEGATE',
+    'enum' : 'ENUM',
+    'extern' : 'EXTERN',
+    'interface' : 'INTERFACE',
+    'internal' : 'INTERNAL',
+    'namespace' : 'NAMESPACE',
+    'new' : 'NEW',
+    'private' : 'PRIVATE',
+    'protected' : 'PROTECTED',
+    'public' : 'PUBLIC',
+    'sealed' : 'SEALED',
+    'static' : 'STATIC',
+    'struct' : 'STRUCT',
+    'using' : 'USING',
+    }
 
-def t_NAMESPACE(t):
-    r'namespace'
-
-    return t
-
-
-def t_USING(t):
-    r'using'
-
-    return t;
-
-def t_EXTERN(t):
-    r'extern'
-
-    return t;
-
-def t_ALIAS(t):
-    r'alias'
-
-    return t;
-
-def t_CLASS(t):
-    r'class'
-
-    return t;
-
-def t_STRUCT(t):
-    r'struct'
-
-    return t;
-
-def t_INTERFACE(t):
-    r'interface'
-
-    return t;
-
-def t_ENUM(t):
-    r'enum'
-
-    return t;
-
-def t_DELEGATE(t):
-    r'delegate'
-
-    return t;
+tokens += list(reserved_words.values())
 
 
-# Quite restrictive
+# Quite restrictive at this stage
 def t_IDENTIFIER(t):
     r'[A-Za-z]+'
 
+    t.type = reserved_words.get(t.value,'IDENTIFIER')
+
     return t
-    
-# def t_NOTHING(t):
-#     r''
 
-#     return t
-
-# # A regular expression rule with some action code
-# def t_NUMBER(t):
-#     r'\d+'
-#     t.value = int(t.value)
-#     return t
 
 # Define a rule so we can track line numbers
 def t_newline(t):

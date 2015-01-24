@@ -29,40 +29,38 @@ def p_namespace_decl(p):
     '''namespace_decl : NAMESPACE qualified_identifier namespace_body'''
     p[0] = p[1] + ' ' + p[2] + ' ' + p[3]
 
+
 ## namespace_body
-def p_namespace_body_empty(p):
-    '''namespace_body : OPEN_BRACKET CLOSE_BRACKET'''
-    p[0] = p[1] + ' ' + p[2]
-
-def p_namespace_body_just_externs(p):
-    '''namespace_body : OPEN_BRACKET extern_alias_directives CLOSE_BRACKET'''
-    p[0] = p[1] + ' ' + p[2] + ' ' + p[3]
-
-def p_namespace_body_just_usings(p):
-    '''namespace_body : OPEN_BRACKET using_directives CLOSE_BRACKET'''
-    p[0] = p[1] + ' ' + p[2] + ' ' + p[3]
-
-def p_namespace_body_just_ns_members(p):
-    '''namespace_body : OPEN_BRACKET namespace_member_decls CLOSE_BRACKET'''
-    p[0] = p[1] + ' ' + p[2] + ' ' + p[3]
+def p_namespace_body(p):
+    '''namespace_body : OPEN_BRACKET extern_alias_directives_opt using_directives_opt namespace_member_decls_opt CLOSE_BRACKET'''
+    p[0] = regurgitate(p)
 
 
 ## extern
+def p_extern_alias_directive(p):
+    '''extern_alias_directive : EXTERN ALIAS IDENTIFIER'''
+
+    p[0] = p[1] + ' ' + p[2] + ' ' + p[3]
+
 def p_extern_alias_directives(p):
     '''extern_alias_directives : extern_alias_directive
                                | extern_alias_directives extern_alias_directive
     '''
 
     p[0] = regurgitate(p)
-        
-def p_extern_alias_directive(p):
-    '''extern_alias_directive : EXTERN ALIAS IDENTIFIER'''
 
-    p[0] = p[1] + ' ' + p[2] + ' ' + p[3]
+def p_extern_alias_directives_opt(p):
+    '''extern_alias_directives_opt : extern_alias_directives
+    | empty'''
 
-
+    p[0] = regurgitate(p)
 
 ## using
+def p_using_directive(p):
+    '''using_directive : USING'''
+
+    p[0] = p[1]
+
 def p_using_directives(p):
     '''using_directives : using_directive
                         | using_directives using_directive
@@ -70,12 +68,20 @@ def p_using_directives(p):
 
     p[0] = regurgitate(p)
 
-def p_using_directive(p):
-    '''using_directive : USING'''
+def p_using_directives_opt(p):
+    '''using_directives_opt : using_directives
+    | empty
+    '''
+
+    p[0] = regurgitate(p)
+
+# namespace_member
+def p_namespace_member_decl(p):
+    '''namespace_member_decl : namespace_decl
+                             | type_decl
+    '''
 
     p[0] = p[1]
-
-
 
 def p_namespace_member_decls(p):
     '''namespace_member_decls : namespace_member_decl
@@ -85,14 +91,14 @@ def p_namespace_member_decls(p):
     p[0] = regurgitate(p)
 
 
-def p_namespace_member_decl(p):
-    '''namespace_member_decl : namespace_decl
-                             | type_decl
-    '''
+def p_namespace_member_decls_opt(p):
+    '''namespace_member_decls_opt : namespace_member_decls
+    | empty'''
 
-    p[0] = p[1]
+    p[0] = regurgitate(p)
 
 
+# type_decl
 def p_type_decl(p):
     '''type_decl : class_decl
                   | struct_decl
@@ -104,7 +110,7 @@ def p_type_decl(p):
     p[0] = p[1]
     
 def p_class_decl(p):
-    '''class_decl : CLASS IDENTIFIER OPEN_BRACKET CLOSE_BRACKET'''
+    '''class_decl : class_modifiers_opt CLASS IDENTIFIER OPEN_BRACKET CLOSE_BRACKET'''
 
     p[0] = p[1] + ' ' + p[2] + ' ' + p[3] + ' ' + p[4]
 
@@ -130,7 +136,41 @@ def p_delegate_decl(p):
 
     p[0] = p[1] + ' ' + p[2] + ' ' + p[3] + ' ' + p[4]
 
-    
+
+# Class modifiers
+def p_class_modifiers_opt(p):
+    '''class_modifiers_opt : class_modifiers
+    | empty
+    '''
+
+    p[0] = regurgitate(p)
+
+def p_class_modifiers(p):
+    '''class_modifiers : class_modifier
+    | class_modifiers class_modifier'''
+
+    p[0] = regurgitate(p)
+
+
+def p_class_modifier(p):
+    '''class_modifier : PUBLIC
+    | PROTECTED
+    | PRIVATE
+    | INTERNAL
+    | SEALED
+    | ABSTRACT
+    | STATIC
+    | NEW
+    '''
+
+    p[0] = p[1]
+
+
+def p_empty(p):
+    'empty :'
+
+    p[0] = ''
+    pass
 
 
 # Error rule for syntax errors
