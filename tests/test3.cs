@@ -8,7 +8,7 @@ namespace System.Linq
 
     public abstract class Horatio { }
 
-    public abstract class Horatio { }
+    public abstract class Horatio : Blah { }
 }
 
 namespace System.Web

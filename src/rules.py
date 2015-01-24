@@ -42,6 +42,19 @@ def p_namespace_or_type_name(p):
     p[0] = regurgitate(p)
 
 
+### 2.2
+def p_class_type(p):
+    '''class_type : type_name
+    | OBJECT
+    | DYNAMIC
+    | STRING'''
+
+    p[0] = p[1]
+
+def p_interface_type(p):
+    '''interface_type : type_name'''
+    p[0] = p[1]
+
 ### Temporary
 def p_type_arg_list(p):
     '''type_arg_list : LT GT'''
@@ -60,6 +73,13 @@ def p_qualified_identifier(p):
                             | qualified_identifier DOT IDENTIFIER
     '''
     p[0] = p[1] if len(p) == 2 else p[1] + '.' + p[3]
+
+
+def p_partial_opt(p):
+    '''partial_opt : PARTIAL
+    | empty'''
+
+    p[0] = regurgitate(p)
 
 
 ### 2.6
@@ -164,11 +184,8 @@ def p_qualified_alias_member(p):
     '''qualified_alias_member : IDENTIFIER COLON COLON IDENTIFIER type_arg_list_opt'''
 
     p[0] = regurgitate(p)
-    
-def p_class_decl(p):
-    '''class_decl : class_modifiers_opt CLASS IDENTIFIER OPEN_BRACKET CLOSE_BRACKET'''
+ 
 
-    p[0] = p[1] + ' ' + p[2] + ' ' + p[3] + ' ' + p[4] + p[5]
 
 def p_struct_decl(p):
     '''struct_decl : STRUCT IDENTIFIER OPEN_BRACKET CLOSE_BRACKET'''
@@ -195,8 +212,13 @@ def p_delegate_decl(p):
 
 
 ### 2.7 Classes
+def p_class_decl(p):
+    '''class_decl : class_modifiers_opt partial_opt CLASS IDENTIFIER class_base_opt OPEN_BRACKET CLOSE_BRACKET'''
+
+    p[0] = regurgitate(p)
 
 ## Class modifiers
+    
 def p_class_modifiers_opt(p):
     '''class_modifiers_opt : class_modifiers
     | empty
@@ -223,6 +245,41 @@ def p_class_modifier(p):
     '''
 
     p[0] = p[1]
+
+
+def p_type_param_list(p):
+    '''type_param_list : LT type_params GT'''
+
+    p[0] = '<' + p[2] + '>'
+
+def p_type_params(p):
+    '''type_params : attributes_opt type_param
+    | type_params COMMA attributes_opt type_param'''
+
+    p[0] = regurgitate(p)
+
+def p_type_param(p):
+    '''type_param : IDENTIFIER'''
+
+def p_class_base_opt(p):
+    '''class_base_opt : COLON class_type
+    | COLON interface_type_list
+    | COLON class_type COMMA interface_type_list
+    | empty'''
+
+    p[0] = regurgitate(p)
+
+    
+def p_interface_type_list(p):
+    '''interface_type_list : interface_type
+    | interface_type_list COMMA interface_type'''
+    p[0] = regurgitate(p)
+
+### Other
+def p_attributes_opt(p):
+    '''attributes_opt : empty'''
+
+    p[0] = ''
 
 ## semicolon_opt
 def p_semicolon_opt(p):

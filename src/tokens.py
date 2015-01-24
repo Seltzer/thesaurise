@@ -5,42 +5,50 @@ tokens = [
     'IDENTIFIER',
 
     # Symbols
-    'OPEN_BRACKET',
     'CLOSE_BRACKET',
-    'SEMICOLON',
+    'COLON',
+    'COMMA',
     'DOT',
     'EQUALS',
     'GT',
     'LT',
-    'COLON'
+    'OPEN_BRACKET',
+    'SEMICOLON',    
     ]
 
 
-t_DOT = r'\.'
-t_OPEN_BRACKET = r'{'
+
 t_CLOSE_BRACKET = r'}'
-t_SEMICOLON = r';'
+t_COLON = r':'
+t_COMMA = r','
+t_DOT = r'\.'
 t_EQUALS = r'='
 t_GT = r'>'
 t_LT = r'<'
-t_COLON = r':'
+t_OPEN_BRACKET = r'{'
+t_SEMICOLON = r';'
+
 
 reserved_words = {
     'abstract' : 'ABSTRACT',
     'alias' : 'ALIAS',
     'class' : 'CLASS',
     'delegate' : 'DELEGATE',
+    'dynamic' : 'DYNAMIC',
     'enum' : 'ENUM',
     'extern' : 'EXTERN',
     'interface' : 'INTERFACE',
     'internal' : 'INTERNAL',
     'namespace' : 'NAMESPACE',
     'new' : 'NEW',
+    'object' : 'OBJECT',
+    'partial' : 'PARTIAL',
     'private' : 'PRIVATE',
     'protected' : 'PROTECTED',
     'public' : 'PUBLIC',
     'sealed' : 'SEALED',
     'static' : 'STATIC',
+    'string' : 'STRING',
     'struct' : 'STRUCT',
     'using' : 'USING',
     }
