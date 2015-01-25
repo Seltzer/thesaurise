@@ -12,7 +12,7 @@ def regurgitate_inv(p, start = 1, end = None):
 
 
 def wrap_in_brackets(str):
-    return 'OPEN_BRACKET ' + str + 'CLOSE_BRACKET'
+    return 'OPENING_BRACE ' + str + 'CLOSING_BRACE'
 
 
 
@@ -91,7 +91,7 @@ def p_namespace_decl(p):
 
 ## namespace_body
 def p_namespace_body(p):
-    '''namespace_body : OPEN_BRACKET extern_alias_directives_opt using_directives_opt namespace_member_decls_opt CLOSE_BRACKET'''
+    '''namespace_body : OPENING_BRACE extern_alias_directives_opt using_directives_opt namespace_member_decls_opt CLOSING_BRACE'''
     p[0] = '\n{\n' + regurgitate(p, 2, len(p) - 1) + '\n}'
 
 
@@ -188,24 +188,24 @@ def p_qualified_alias_member(p):
 
 
 def p_struct_decl(p):
-    '''struct_decl : STRUCT IDENTIFIER OPEN_BRACKET CLOSE_BRACKET'''
+    '''struct_decl : STRUCT IDENTIFIER OPENING_BRACE CLOSING_BRACE'''
 
     p[0] = p[1] + ' ' + p[2] + ' ' + p[3] + ' ' + p[4]
     
 def p_interface_decl(p):
-    '''interface_decl : INTERFACE IDENTIFIER OPEN_BRACKET CLOSE_BRACKET'''
+    '''interface_decl : INTERFACE IDENTIFIER OPENING_BRACE CLOSING_BRACE'''
 
     p[0] = p[1] + ' ' + p[2] + ' ' + p[3] + ' ' + p[4]
 
     
 def p_enum_decl(p):
-    '''enum_decl : ENUM IDENTIFIER OPEN_BRACKET CLOSE_BRACKET '''
+    '''enum_decl : ENUM IDENTIFIER OPENING_BRACE CLOSING_BRACE '''
 
     p[0] = p[1] + ' ' + p[2] + ' ' + p[3] + ' ' + p[4]
 
     
 def p_delegate_decl(p):
-    '''delegate_decl : DELEGATE IDENTIFIER OPEN_BRACKET CLOSE_BRACKET'''
+    '''delegate_decl : DELEGATE IDENTIFIER OPENING_BRACE CLOSING_BRACE'''
 
     p[0] = p[1] + ' ' + p[2] + ' ' + p[3] + ' ' + p[4]
 
@@ -213,12 +213,10 @@ def p_delegate_decl(p):
 
 ### 2.7 Classes
 def p_class_decl(p):
-    '''class_decl : class_modifiers_opt partial_opt CLASS IDENTIFIER class_base_opt OPEN_BRACKET CLOSE_BRACKET'''
+    '''class_decl : class_modifiers_opt partial_opt CLASS IDENTIFIER class_base_opt type_param_constraints_clauses_opt class_body semicolon_opt'''
 
     p[0] = regurgitate(p)
 
-## Class modifiers
-    
 def p_class_modifiers_opt(p):
     '''class_modifiers_opt : class_modifiers
     | empty
@@ -245,7 +243,6 @@ def p_class_modifier(p):
     '''
 
     p[0] = p[1]
-
 
 def p_type_param_list(p):
     '''type_param_list : LT type_params GT'''
@@ -274,6 +271,77 @@ def p_interface_type_list(p):
     '''interface_type_list : interface_type
     | interface_type_list COMMA interface_type'''
     p[0] = regurgitate(p)
+
+def p_type_parameter_constraints_clause(p):
+    '''type_param_constraints_clause : WHERE type_param COLON type_param_constraints'''
+
+    p[0] = regurgitate(p)
+
+def p_type_param_constraints_clauses(p):
+    '''type_param_constraints_clauses : type_param_constraints_clause
+    | type_param_constraints_clauses type_param_constraints_clause'''
+
+    p[0] = regurgitate(p)
+
+def p_type_param_constraints_clauses_opt(p):
+    '''type_param_constraints_clauses_opt : type_param_constraints_clauses
+    | empty'''
+
+    p[0] = regurgitate(p)
+
+def p_type_param_constraints(p):
+    '''type_param_constraints : primary_constraint
+    | secondary_constraints
+    | ctor_constraint
+    | primary_constraint COMMA secondary_constraints
+    | primary_constraint COMMA ctor_constraint
+    | secondary_constraints COMMA ctor_constraint
+    | primary_constraint COMMA secondary_constraints COMMA ctor_constraint'''
+
+    p[0] = regurgitate(p)
+
+def p_primary_constraint(p):
+    '''primary_constraint : class_type
+    | CLASS
+    | STRUCT'''
+
+    p[0] = p[1]
+
+def p_secondary_constraints(p):
+    '''secondary_constraints : interface_type
+    | type_param
+    | secondary_constraints COMMA interface_type
+    | secondary_constraints COMMA type_param'''
+
+    p[0] = regurgitate(p)
+
+def p_ctor_constraint(p):
+    '''ctor_constraint : NEW OPENING_PARENTHESIS CLOSING_PARENTHESIS'''
+
+    p[0] = regurgitate(p)
+    
+def p_class_body(p):
+    '''class_body : OPENING_BRACE class_member_decls_opt CLOSING_BRACE'''
+
+    p[0] = regurgitate(p)
+
+def p_class_member_decl(p):
+    '''class_member_decl : CONST'''
+
+    p[0] = p[1]
+
+def p_class_member_decls(p):
+    '''class_member_decls : class_member_decl
+    | class_member_decls class_member_decl'''
+
+    p[0] = regurgitate(p)
+
+def p_class_member_decls_opt(p):
+    '''class_member_decls_opt : class_member_decls
+    | empty'''
+
+    p[0] = regurgitate(p)
+
 
 ### Other
 def p_attributes_opt(p):

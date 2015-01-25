@@ -5,53 +5,116 @@ tokens = [
     'IDENTIFIER',
 
     # Symbols
-    'CLOSE_BRACKET',
+    'CLOSING_BRACE',
+    'CLOSING_PARENTHESIS',
     'COLON',
     'COMMA',
     'DOT',
     'EQUALS',
     'GT',
     'LT',
-    'OPEN_BRACKET',
+    'OPENING_BRACE',
+    'OPENING_PARENTHESIS',
     'SEMICOLON',    
     ]
 
 
 
-t_CLOSE_BRACKET = r'}'
+t_CLOSING_BRACE = r'}'
+t_CLOSING_PARENTHESIS = r'\)'
 t_COLON = r':'
 t_COMMA = r','
 t_DOT = r'\.'
 t_EQUALS = r'='
 t_GT = r'>'
 t_LT = r'<'
-t_OPEN_BRACKET = r'{'
+t_OPENING_BRACE = r'{'
+t_OPENING_PARENTHESIS = r'\('
 t_SEMICOLON = r';'
 
 
 reserved_words = {
     'abstract' : 'ABSTRACT',
     'alias' : 'ALIAS',
+    'as' : 'AS',
+    'base' : 'BOOL',
+    'break' : 'BREAK',
+    'byte' : 'BYTE',
+    'case' : 'CASE',
+    'catch' : 'CATCH',
+    'char' : 'CHAR',
+    'checked' : 'CHECKED',
     'class' : 'CLASS',
+    'const' : 'CONST',
+    'continue' : 'CONTINUE',
+    'decimal' : 'DECIMAL',
+    'default' : 'DEFAULT',
     'delegate' : 'DELEGATE',
+    'do' : 'DO',
+    'double' : 'DOUBLE',
     'dynamic' : 'DYNAMIC',
+    'else' : 'ELSE',
     'enum' : 'ENUM',
+    'event' : 'EVENT',
+    'explicit' : 'EXPLICIT',
     'extern' : 'EXTERN',
+    'false' : 'FALSE',
+    'finally' : 'FINALLY',
+    'fixed' : 'FIXED',
+    'float' : 'FLOAT',
+    'for' : 'FOR',
+    'foreach' : 'FOREACH',
+    'goto' : 'GOTO',
+    'if' : 'IF',
+    'implicit' : 'IMPLICIT',
+    'in' : 'IN',
+    'int' : 'INT',
     'interface' : 'INTERFACE',
     'internal' : 'INTERNAL',
+    'is' : 'IS',
+    'lock' : 'LOCK',
+    'long' : 'LONG',
     'namespace' : 'NAMESPACE',
     'new' : 'NEW',
+    'null' : 'NULL',
     'object' : 'OBJECT',
+    'operator' : 'OPERATOR',
+    'out' : 'OUT',
+    'override' : 'OVERRIDE',
+    'params' : 'PARAMS',
     'partial' : 'PARTIAL',
     'private' : 'PRIVATE',
     'protected' : 'PROTECTED',
     'public' : 'PUBLIC',
+    'readonly' : 'READONLY',
+    'ref' : 'REF',
+    'return' : 'RETURN',
+    'sbyte' : 'SBYTE',
     'sealed' : 'SEALED',
+    'short' : 'SHORT',
+    'sizeof' : 'SIZEOF',
+    'stackalloc' : 'STACKALLOC',
     'static' : 'STATIC',
     'string' : 'STRING',
     'struct' : 'STRUCT',
+    'switch' : 'SWITCH',
+    'this' : 'THIS',
+    'throw' : 'THROW',
+    'true' : 'TRUE',
+    'try' : 'TRY',
+    'typeof' : 'TYPEOF',
+    'uint' : 'UINT',
+    'ulong' : 'ULONG',
+    'unchecked' : 'UNCHECKED',
+    'unsafe' : 'UNSAFE',
+    'ushort' : 'USHORT',
     'using' : 'USING',
-    }
+    'virtual' : 'VIRTUAL',
+    'void' : 'VOID',
+    'volatile' : 'VOLATILE',
+    'where' : 'WHERE',
+    'while' : 'WHILE',
+}
 
 tokens += list(reserved_words.values())
 
