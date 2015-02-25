@@ -18,11 +18,15 @@ tokens = [
     'OPENING_BRACKET',
     'OPENING_PARENTHESIS',
     'QUESTION_MARK',
-    'SEMICOLON',    
+    'SEMICOLON',
+
+    # Non-reserved keywords
+    'ASSEMBLY',
+    'MODULE'
     ]
 
 
-
+t_ASSEMBLY = R'assembly'
 t_CLOSING_BRACE = r'}'
 t_CLOSING_BRACKET = r'\]'
 t_CLOSING_PARENTHESIS = r'\)'
@@ -32,6 +36,7 @@ t_DOT = r'\.'
 t_EQUALS = r'='
 t_GT = r'>'
 t_LT = r'<'
+t_MODULE = r'module'
 t_OPENING_BRACE = r'{'
 t_OPENING_BRACKET = r'\['
 t_OPENING_PARENTHESIS = r'\('
@@ -39,11 +44,14 @@ t_QUESTION_MARK = r'\?'
 t_SEMICOLON = r';'
 
 
+# TODO: Check
+
 reserved_words = {
     'abstract' : 'ABSTRACT',
     'alias' : 'ALIAS',
     'as' : 'AS',
-    'base' : 'BOOL',
+    'base' : 'BASE',
+    'bool' : 'BOOL',
     'break' : 'BREAK',
     'byte' : 'BYTE',
     'case' : 'CASE',

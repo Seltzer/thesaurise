@@ -203,6 +203,111 @@ def p_partial_opt(p):
     p[0] = regurgitate(p)
 
 
+
+### 2.4 Expressions
+def p_argument_list(p):
+    '''argument_list : argument
+    | argument_list COMMA argument'''
+
+    p[0] = regurgitate(p)
+
+def p_argument(p):
+    '''argument : argument_name_opt argument_value'''
+
+    p[0] = regurgitate(p)
+
+
+def p_argument_name(p):
+    '''argument_name : IDENTIFIER COLON'''
+    p[0] = p[1] + ': '
+
+def p_argument_name_opt(p):
+    '''argument_name_opt : argument_name
+    | empty'''
+
+    p[0] = regurgitate(p)
+
+def p_argument_value(p):
+    '''argument_value : expression
+    | REF var_ref
+    | OUT var_ref'''
+
+    p[0] = regurgitate(p)
+
+# def p_primary_expression(p):
+#     '''primary_expression : primary_no_array_creation_expression
+#     | array_creation_expression'''
+
+#     p[0] = regurgitate(p)
+
+
+# def p_primary_no_array_creation_expression(p):
+#     '''primary_no_array_creation_expression : literal
+
+
+def p_simple_name(p):
+    '''simple_name : IDENTIFIER type_arg_list'''
+
+    p[0] = regurgitate(p)
+
+def p_parenthesized_expr(p):
+    '''parenthesized_expr : OPENING_PARENTHESIS expression CLOSING_PARENTHESIS'''
+    p[0] = regurgitate(p)
+
+#def p_member_access
+    
+def p_predefined_type(p):
+    '''predefined_type : BOOL
+    | BYTE
+    | CHAR
+    | DECIMAL
+    | DOUBLE
+    | FLOAT
+    | INT
+    | LONG
+    | OBJECT
+    | SBYTE
+    | SHORT
+    | STRING
+    | UINT
+    | ULONG
+    | USHORT'''
+
+    p[0] = p[1]
+
+# def p_invocation_expression(p):
+#     '''invocation_expression : primary_expression OPENING_PARENTHESIS arg_list_opt CLOSING_PARENTHESIS'''
+
+#     p[0] = regurgitate(p)
+
+# def p_element_access(p):
+#     '''element_access : primary_no_array_creation_expression OPENING_BRACKET arg_list CLOSING_BRACKET'''
+
+#     p[0] = regurgitate(p)
+
+
+
+def p_this_access(p):
+    '''this_access : THIS'''
+    p[0] = p[1]
+
+
+# def p_base_access(p):
+#     '''base_access : BASE DOT IDENTIFIER
+#     | BASE OPENING_BRACKET arg_list CLOSING_BRACKET'''
+#     p[0] = regurgitate(p)
+
+
+#def p_opst_increment_expression(p):
+    
+
+
+
+
+
+
+
+
 ### 2.6
 def p_compilation_unit(p):
     '''compilation_unit : extern_alias_directives_opt using_directives_opt namespace_member_decls_opt'''
@@ -318,11 +423,6 @@ def p_enum_decl(p):
 
     p[0] = p[1] + ' ' + p[2] + ' ' + p[3] + ' ' + p[4]
 
-    
-def p_delegate_decl(p):
-    '''delegate_decl : DELEGATE IDENTIFIER OPENING_BRACE CLOSING_BRACE'''
-
-    p[0] = p[1] + ' ' + p[2] + ' ' + p[3] + ' ' + p[4]
 
 
 
@@ -492,6 +592,142 @@ def p_var_initialiser_list_opt(p):
     | empty'''
 
     p[0] = regurgitate(p)
+
+
+
+### 2.12 Delegates
+def p_delegate_decl(p):
+    '''delegate_decl : DELEGATE IDENTIFIER OPENING_BRACE CLOSING_BRACE'''
+
+    p[0] = p[1] + ' ' + p[2] + ' ' + p[3] + ' ' + p[4]
+
+def p_delegate_modifiers(p):
+    '''delegate_modifiers : delegate_modifier
+    | delegate_modifiers delegate_modifier'''
+
+    p[0] = regurgitate(p)
+
+def p_delegate_modifier(p):
+    '''delegate_modifier : NEW
+    | PUBLIC
+    | PROTECTED
+    | INTERNAL
+    | PRIVATE'''
+
+
+### 2.13 Attributes
+# def p_global_attributes(p):
+#     '''global_attributes : global_attribute_sections'''
+#     p[0] = p[1]
+
+# def p_global_attribute_sections(p):
+#     '''global_attribute_sections : global_attribute_section
+#     | global_attribute_sections global_attribute_section'''
+#     p[0] = regurgitate(p)
+
+# # TODO: comma_opt?
+# def p_global_attribute_section(p):
+#     '''global_attribute_section : OPENING_BRACKET global_attribute_target_specifier attribute_list CLOSING_BRACKET
+#     | OPENING_BRACKET global_attribute_target_specifier attribute_list COMMA CLOSING_BRACKET'''
+#     p[0] = regurgitate(p)
+
+
+# def p_global_attribute_target_specifier(p):
+#     '''global_attribute_target_specifier : global_attribute_target COLON'''
+#     p[0] = regurgitate(p)
+
+# def p_global_attribute_target(p):
+#     '''global_attribute_target : ASSEMBLY
+#     | MODULE'''
+
+#     p[0] = p[1]
+
+# def p_attributes(p):
+#     '''attributes : attribute_sections'''
+#     p[0] = regurgitate(p)
+
+# def p_attribute_sections(p):
+#     '''attribute_sections : attribute_section
+#     | attribute_sections attribute_section'''
+#     p[0] = regurgitate(p)
+
+# def p_attribute_section(p):
+#     '''attribute_section : OPENING_BRACKET attribute_target_specifier_opt attribute_list CLOSING_BRACKET
+#     |  OPENING_BRACKET attribute_target_specifier_opt attribute_list COMMA CLOSING_BRACKET'''
+
+#     p[0] = regurgitate(p)
+
+# def p_attribute_target_specifier(p):
+#     '''attribute_target_specifier : attribute_target COLON'''
+#     p[0] = regurgitate(p)
+
+# def p_attribute_target_specifier_opt(p):
+#     '''attribute_target_specifier_opt : attribute_target_specifier
+#     | empty'''
+#     p[0] = regurgitate(p)
+
+# def p_attribute_target(p):
+#     '''attribute_target : FIELD
+#     | EVENT
+#     | METHOD
+#     | PARAM
+#     | PROPERTY
+#     | RETURN
+#     | TYPE'''
+#     p[0] = p[1]
+
+# def p_attribute_list(p):
+#     '''attribute_list : attribute
+#     | attribute_list COMMA attribute'''
+#     p[0] = regurgitate(p)
+
+# def p_attribute(p):
+#     '''attribute : attribute_name attribute_args_opt'''
+#     p[0] = regurgitate(p)
+
+# def p_attribute_name(p):
+#     '''attribute_name : type_name'''
+#     p[0] = p[1]
+
+# def p_attribute_args(p):
+#     '''attribute_args : OPENING_PARENTHESIS positional_arg_list_opt CLOSING_PARENTHESIS
+#     | OPENING_PARENTHESIS positional_arg_list COMMA named_arg_list CLOSING_PARENTHESIS
+#     | OPENING_PARENTHESIS named_arg_list CLOSING_PARENTHESIS'''
+#     p[0] = regurgitate(p)
+
+
+# def p_attribute_args_opt(p):
+#     '''attribute_args_opt : attribute_args
+#     | empty'''
+#     p[0] = regurgitate(p)
+
+# def p_positional_arg_list(p):
+#     '''positional_arg_list : positional_arg
+#     | positional_arg_list COMMA positional_arg'''
+#     p[0] = regurgitate(p)
+
+# def p_positional_arg(p):
+#     '''positional_arg : argument_name_opt attribute_argument_expression'''
+#     p[0] = regurgitate(p)
+
+# def p_named_arg_list(p):
+#     '''named_arg_list : named_arg
+#     | named_arg_list COMMA named_arg'''
+#     p[0] = regurgitate(p)
+
+# def p_named_arg(p):
+#     '''named_arg : IDENTIFIER EQUALS attribute_argument_expression'''
+#     p[0] = regurgitate(p)
+
+# def p_attribute_argument_expression(p):
+#     '''attribute_argument_expression : expression'''
+#     p[0] = regurgitate(p)
+    
+    
+    
+
+
+
 
 
 ### Other
