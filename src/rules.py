@@ -404,13 +404,6 @@ def p_qualified_alias_member(p):
     '''qualified_alias_member : IDENTIFIER COLON COLON IDENTIFIER type_argument_list_opt'''
 
     p[0] = regurgitate(p)
- 
-
-
-def p_struct_declaration(p):
-    '''struct_declaration : STRUCT IDENTIFIER OPENING_BRACE CLOSING_BRACE'''
-
-    p[0] = p[1] + ' ' + p[2] + ' ' + p[3] + ' ' + p[4]
     
 def p_interface_declaration(p):
     '''interface_declaration : INTERFACE IDENTIFIER OPENING_BRACE CLOSING_BRACE'''
@@ -714,13 +707,73 @@ def p_class_member_declarations_opt(p):
 #     p[0] = p[1]
 
 
-    
-    
-    
+### 2.8 Structs
+def p_struct_declaration(p):
+    '''struct_declaration : attributes_opt struct_modifiers_opt partial_opt STRUCT IDENTIFIER type_parameter_list_opt struct_interfaces_opt type_parameter_constraints_clauses_opt struct_body semicolon_opt'''
+    p[0] = regurgitate(p)
+
+def p_struct_modifiers(p):
+    '''struct_modifiers : struct_modifier
+    | struct_modifiers struct_modifier'''
+    p[0] = regurgitate(p)
+
+def p_struct_modifiers_opt(p):
+    '''struct_modifiers_opt : struct_modifiers
+    | empty'''
+    p[0] = regurgitate(p)
+
+def p_struct_modifier(p):
+    '''struct_modifier : NEW
+    | PUBLIC
+    | PROTECTED
+    | INTERNAL
+    | PRIVATE'''
+    p[0] = p[1]
+
+def p_struct_interfaces(p):
+    '''struct_interfaces : COLON interface_type_list'''
+    p[0] = regurgitate(p)
+
+def p_struct_interfaces_opt(p):
+    '''struct_interfaces_opt : struct_interfaces
+    | empty'''
+    p[0] = regurgitate(p)
+
+def p_struct_body(p):
+    '''struct_body : OPENING_PARENTHESIS struct_member_declarations_opt CLOSING_PARENTHESIS'''
+    p[0] = regurgitate(p)
+
+def p_struct_member_declarations(p):
+    '''struct_member_declarations : struct_member_declaration
+    | struct_member_declarations struct_member_declaration'''
+    p[0] = regurgitate(p)
+
+def p_struct_member_declarations_opt(p):
+    '''struct_member_declarations_opt : struct_member_declarations
+    | empty'''
+    p[0] = regurgitate(p)
+
+
+def p_struct_member_declaration(p):
+    '''struct_member_declaration : empty'''
+    p[0] = regurgitate(p)
+
+# def p_struct_member_declaration(p):
+#     '''struct_member_declaration : constant_declaration
+#     | field_declaration
+#     | method_declaration
+#     | property_declaration
+#     | event_declaration
+#     | indexer_declaration
+#     | operator_declaration
+#     | constructor_declaration
+#     | static_constructor_declaration
+#     | type_declaration'''
+#     p[0] = p[1]
     
 
 
-### 2.9 (Arrays)
+### 2.9 Arrays
 def p_array_type(p):
     '''array_type : non_array_type rank_specifiers'''
     p[0] = regurgitate(p)
@@ -801,12 +854,6 @@ def p_enum_member_declarations_opt(p):
 def p_enum_member_declaration(p):
     '''enum_member_declaration : attributes_opt IDENTIFIER
     | attributes_opt IDENTIFIER EQUALS constant_expression'''
-    p[0] = regurgitate(p)
-
-# Other
-def p_semicolon_opt(p):
-    '''semicolon_opt : SEMICOLON
-    | empty'''
     p[0] = regurgitate(p)
 
 def p_constant_expression(p):

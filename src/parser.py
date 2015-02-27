@@ -5,15 +5,18 @@ from lib.ply import yacc,lex
 from src.tokens import *
 from src.rules import *
 
+def generateParser():
+    print('Generating parser')
 
-def parse(filename):
-    print('About to parse ' + filename)
     #logger = yacc.NullLogger()
     logger = yacc.PlyLogger(sys.stderr)
     
     yacc.yacc(debug=logger, errorlog=logger)
 
-#    filename = "tests/test.cs"
+
+def parse(filename):
+    print('About to parse ' + filename)
+    
     f = open(filename, "r")
     data = f.read();
     f.close();
