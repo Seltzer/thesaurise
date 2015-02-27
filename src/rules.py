@@ -167,13 +167,13 @@ def p_type_argument_list_opt(p):
 
     p[0] = regurgitate(p)
 
-def p_type_args(p):
+def p_type_arguments(p):
     '''type_arguments : type_argument
     | type_arguments COMMA type_argument'''
 
     p[0] = regurgitate(p)
 
-def p_type_arg(p):
+def p_type_argument(p):
     '''type_argument : type'''
     p[0] = p[1]
     
@@ -416,14 +416,6 @@ def p_interface_declaration(p):
     '''interface_declaration : INTERFACE IDENTIFIER OPENING_BRACE CLOSING_BRACE'''
 
     p[0] = p[1] + ' ' + p[2] + ' ' + p[3] + ' ' + p[4]
-
-    
-def p_enum_declaration(p):
-    '''enum_declaration : ENUM IDENTIFIER OPENING_BRACE CLOSING_BRACE '''
-
-    p[0] = p[1] + ' ' + p[2] + ' ' + p[3] + ' ' + p[4]
-
-
 
 
 ### 2.7 Classes
@@ -762,6 +754,66 @@ def p_variable_initialiser_list_opt(p):
 
 
 
+
+
+### 2.11 Enums
+def p_enum_declaration(p):
+    '''enum_declaration : attributes_opt ENUM IDENTIFIER enum_base_opt enum_body semicolon_opt'''
+    p[0] = regurgitate(p)
+
+def p_enum_base(p):
+    '''enum_base : COLON integral_type'''
+    p[0] = regurgitate(p)
+
+def p_enum_base_opt(p):
+    '''enum_base_opt : enum_base
+    | empty'''
+    p[0] = regurgitate(p)
+
+def p_enum_body(p):
+    '''enum_body : OPENING_PARENTHESIS enum_member_declarations_opt CLOSING_PARENTHESIS
+    | OPENING_PARENTHESIS enum_member_declarations COMMA CLOSING_PARENTHESIS'''
+    p[0] = regurgitate(p)
+
+def p_enum_modifiers(p):
+    '''enum_modifiers : enum_modifier
+    | enum_modifiers enum_modifier'''
+    p[0] = regurgitate(p)
+
+def p_enum_modifier(p):
+    '''enum_modifier : NEW
+    | PUBLIC
+    | PROTECTED
+    | INTERNAL
+    | PRIVATE'''
+    p[0] = p[1]
+
+def p_enum_member_declarations(p):
+    '''enum_member_declarations : enum_member_declaration
+    | enum_member_declarations enum_member_declaration'''
+    p[0] = regurgitate(p)
+
+def p_enum_member_declarations_opt(p):
+    '''enum_member_declarations_opt : enum_member_declarations
+    | empty'''
+    p[0] = regurgitate(p)
+
+def p_enum_member_declaration(p):
+    '''enum_member_declaration : attributes_opt IDENTIFIER
+    | attributes_opt IDENTIFIER EQUALS constant_expression'''
+    p[0] = regurgitate(p)
+
+# Other
+def p_semicolon_opt(p):
+    '''semicolon_opt : SEMICOLON
+    | empty'''
+    p[0] = regurgitate(p)
+
+def p_constant_expression(p):
+    '''constant_expression : expression'''
+    p[0] = p[1]
+
+
 ### 2.12 Delegates
 def p_delegate_declaration(p):
     '''delegate_declaration : DELEGATE IDENTIFIER OPENING_BRACE CLOSING_BRACE'''
@@ -856,7 +908,7 @@ def p_delegate_modifier(p):
 #     '''attribute_name : type_name'''
 #     p[0] = p[1]
 
-# def p_attribute_args(p):
+# def p_attribute_arguments(p):
 #     '''attribute_arguments : OPENING_PARENTHESIS positional_argument_list_opt CLOSING_PARENTHESIS
 #     | OPENING_PARENTHESIS positional_argument_list COMMA named_argument_list CLOSING_PARENTHESIS
 #     | OPENING_PARENTHESIS named_argument_list CLOSING_PARENTHESIS'''
@@ -873,7 +925,7 @@ def p_delegate_modifier(p):
 #     | positional_argument_list COMMA positional_argument'''
 #     p[0] = regurgitate(p)
 
-# def p_positional_arg(p):
+# def p_positional_argument(p):
 #     '''positional_argument : argument_name_opt attribute_argument_expression'''
 #     p[0] = regurgitate(p)
 
@@ -882,7 +934,7 @@ def p_delegate_modifier(p):
 #     | named_argument_list COMMA named_argument'''
 #     p[0] = regurgitate(p)
 
-# def p_named_arg(p):
+# def p_named_argument(p):
 #     '''named_argument : IDENTIFIER EQUALS attribute_argument_expression'''
 #     p[0] = regurgitate(p)
 
