@@ -12,6 +12,7 @@ tokens = [
     'COMMA',
     'DOT',
     'EQUALS',
+    'GET',
     'GT',
     'LT',
     'OPENING_BRACE',
@@ -19,6 +20,7 @@ tokens = [
     'OPENING_PARENTHESIS',
     'QUESTION_MARK',
     'SEMICOLON',
+    'SET',
 
     # Non-reserved keywords
     'ASSEMBLY',
@@ -34,6 +36,7 @@ t_COLON = r':'
 t_COMMA = r','
 t_DOT = r'\.'
 t_EQUALS = r'='
+t_GET = r'get'
 t_GT = r'>'
 t_LT = r'<'
 t_MODULE = r'module'
@@ -42,6 +45,7 @@ t_OPENING_BRACKET = r'\['
 t_OPENING_PARENTHESIS = r'\('
 t_QUESTION_MARK = r'\?'
 t_SEMICOLON = r';'
+t_SET = r'set'
 
 
 # TODO: Check

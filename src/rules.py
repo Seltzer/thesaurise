@@ -405,11 +405,6 @@ def p_qualified_alias_member(p):
 
     p[0] = regurgitate(p)
     
-def p_interface_declaration(p):
-    '''interface_declaration : INTERFACE IDENTIFIER OPENING_BRACE CLOSING_BRACE'''
-
-    p[0] = p[1] + ' ' + p[2] + ' ' + p[3] + ' ' + p[4]
-
 
 ### 2.7 Classes
 def p_class_declaration(p):
@@ -806,7 +801,129 @@ def p_variable_initialiser_list_opt(p):
     p[0] = regurgitate(p)
 
 
+### 2.10 Interfaces
+def p_interface_declaration(p):
+    '''interface_declaration : attributes_opt interface_modifiers_opt partial_opt INTERFACE IDENTIFIER variant_type_parameter_list_opt interface_base_opt type_parameter_constraints_clauses_opt interface_body semicolon_opt'''
+    p[0] = regurgitate(p)
 
+def p_interface_modifiers(p):
+    '''interface_modifiers : interface_modifier
+    | interface_modifiers interface_modifier'''
+    p[0] = regurgitate(p)
+
+def p_interface_modifiers_opt(p):
+    '''interface_modifiers_opt : interface_modifiers
+    | empty'''
+    p[0] = regurgitate(p)
+    
+
+def p_interface_modifier(p):
+    '''interface_modifier : NEW
+    | PUBLIC
+    | PROTECTED
+    | INTERNAL
+    | PRIVATE'''
+    p[0] = p[1]
+
+def p_variant_type_parameter_list(p):
+    '''variant_type_parameter_list : LT variant_type_parameters GT'''
+    p[0] = regurgitate(p)
+
+def p_variant_type_parameter_list_opt(p):
+    '''variant_type_parameter_list_opt : variant_type_parameter_list
+    | empty'''
+    p[0] = regurgitate(p)
+
+def p_variant_type_parameters(p):
+    '''variant_type_parameters : empty'''
+    p[0] = regurgitate(p)
+
+# def p_variant_type_parameters(p):
+#     '''variant_type_parameters : attributes_opt variance_annotation_opt type_parameter variant_type_parameters COMMA attributes_opt variance_annotation_opt type_parameter'''
+#     p[0] = regurgitate(p)
+
+def p_variant_type_parameters_opt(p):
+    '''variant_type_parameters_opt : variant_type_parameters
+    | empty'''
+    p[0] = regurgitate(p)
+    
+
+def p_variance_annotation(p):
+    '''variance_annotation : IN
+    | OUT'''
+    p[0] = p[1]
+
+def p_variance_annotation_opt(p):
+    '''variance_annotation_opt : variance_annotation
+    | empty'''
+    p[0] = regurgitate(p)
+
+def p_interface_base(p):
+    '''interface_base : COLON interface_type_list'''
+    p[0] = regurgitate(p)
+
+def p_interface_base_opt(p):
+    '''interface_base_opt : interface_base
+    | empty'''
+    p[0] = regurgitate(p)
+    
+
+def p_interface_body(p):
+    '''interface_body : OPENING_PARENTHESIS interface_member_declarations_opt CLOSING_PARENTHESIS'''
+    p[0] = regurgitate(p)
+
+def p_interface_member_declarations(p):
+    '''interface_member_declarations : interface_member_declaration
+    | interface_member_declarations interface_member_declaration'''
+    p[0] = regurgitate(p)
+
+def p_interface_member_declarations_opt(p):
+    '''interface_member_declarations_opt : interface_member_declarations
+    | empty'''
+    p[0] = regurgitate(p)
+
+def p_interface_member_declaration(p):
+    '''interface_member_declaration : interface_method_declaration
+    | interface_property_declaration
+    | interface_event_declaration
+    | interface_indexer_declaration'''
+    p[0] = regurgitate(p)
+
+def p_interface_method_declaration(p):
+    '''interface_method_declaration : empty'''
+    p[0] = regurgitate(p)
+
+# def p_interface_method_declaration(p):
+#     '''interface_method_declaration : attributes_opt new_opt return_type IDENTIFIER type_parameter_list OPENING_PARENTHESIS formal_parameter_list_opt CLOSING_PARENTHESIS type_parameter_constraints_clauses_opt SEMICOLON'''
+#     p[0] = regurgitate(p)
+
+def p_interface_property_declaration(p):
+    '''interface_property_declaration : attributes_opt new_opt type IDENTIFIER OPENING_BRACE interface_accessors CLOSING_BRACE'''
+    p[0] = regurgitate(p)
+
+def p_interface_accessors(p):
+    '''interface_accessors : attributes_opt GET SEMICOLON
+    | attributes_opt SET SEMICOLON
+    | attributes_opt GET attributes_opt SET SEMICOLON
+    | attributes_opt SET attributes_opt GET SEMICOLON'''
+    p[0] = regurgitate(p)
+
+def p_interface_event_declaration(p):
+    '''interface_event_declaration : attributes_opt new_opt EVENT type IDENTIFIER SEMICOLON'''
+    p[0] = regurgitate(p)
+
+def p_interface_indexer_declaration(p):
+     '''interface_indexer_declaration : empty'''
+     p[0] = regurgitate(p)
+
+
+# def p_interface_indexer_declaration(p):
+#     '''interface_indexer_declaration : attributes_opt new_opt type THIS OPENING_BRACKET formal_parameter_list CLOSING_BRACKET OPENING_BRACE interface_accessors CLOSING_BRACE'''
+#     p[0] = regurgitate(p)
+
+    
+
+    
 
 
 ### 2.11 Enums
@@ -1007,6 +1124,11 @@ def p_semicolon_opt(p):
     '''semicolon_opt : SEMICOLON
     | empty'''
 
+    p[0] = regurgitate(p)
+
+def p_new_opt(p):
+    '''new_opt : NEW
+    | empty'''
     p[0] = regurgitate(p)
 
 
