@@ -561,6 +561,173 @@ def p_class_member_decls_opt(p):
     p[0] = regurgitate(p)
 
 
+# def p_constant_modifiers(p):
+#     '''constant_modifiers : constant_modifier
+#     | constant_modifiers constant_modifier'''
+#     p[0] = regurgitate(p)
+
+# def p_constant_modifier(p):
+#     '''constant_modifier : NEW
+#     | PUBLIC
+#     | PROTECTED
+#     | INTERNAL
+#     | PRIVATE'''
+#     p[0] = p[1]
+
+# def p_constant_declarators(p):
+#     '''constant_declarators : constant_declarator
+#     | constant_declarators constant_declarator'''
+#     p[0] = regurgitate(p)
+    
+# def p_constant_declarator(p):
+#     '''constant_declarator : IDENTIFIER EQUALS constant_expression'''
+
+#     p[0] = regurgitate(p)
+
+# def p_field_decl(p):
+#     '''field_decl : attributes_opt field_modifiers_opt type variable_declarators SEMICOLON'''
+#     p[0] = regurgitate(p)
+
+# def p_field_modifiers(p):
+#     '''field_modifiers : field_modifier
+#     | field_modifiers field_modifier'''
+#     p[0] = regurgitate(p)
+
+
+# def p_field_modifier(p):
+#     '''field_modifier : NEW
+#     | PUBLIC
+#     | PROTECTED
+#     | INTERNAL
+#     | PRIVATE
+#     | STATIC
+#     | READONLY
+#     | VOLATILE'''
+
+#     p[0] = p[1]
+
+# def p_variable_declarators(p):
+#     '''variable_declarator : variable_declarator
+#     | variable_declarators variable_declarator'''
+#     p[0] = regurgitate(p)
+
+# def p_variable_declarator(p):
+#     '''variable_declarator : IDENTIFIER
+#     | IDENTIFIER EQUALS variable_initialiser'''
+#     p[0] = regurgitate(p)
+
+# def p_variable_initialiser(p):
+#     '''variable_initialiser : expression
+#     | array_initialiser'''
+#     p[0] = p[1]
+
+# def p_method_decl(p):
+#     '''method_decl : method_header method_body'''
+#     p[0] = regurgitate(p)
+
+
+# # TODO: This definitely ain't gonna work!!!
+# def p_method_header(p):
+#     '''method_header : attributes_opt method_modifiers_opt
+#     PARTIAL_OPT return_type member_name type_param_list_opt
+#     OPENING_PARENTHESIS formal_param_list_opt CLOSING_PARENTHESIS
+#     type_param_constraints_clauses_opt'''
+#     p[0] = regurgitate(p)
+
+# def p_method_modifiers(p):
+#     '''method_modifiers : method_modifier
+#     | method_modifiers method_modifier'''
+#     p[0] = regurgitate(p)
+
+# def p_method_modifier(p):
+#     '''method_modifier : NEW
+#     | PUBLIC
+#     | PROTECTED
+#     | INTERNAL
+#     | PRIVATE
+#     | STATIC
+#     | VIRTUAL
+#     | SEALED
+#     | OVERRIDE
+#     | ABSTRACT
+#     | EXTERN'''
+#     p[0] = p[1]
+
+# def p_return_type(p):
+#     '''return_type : type
+#     | VOID'''
+#     p[0] = p[1]
+
+# def p_member_name(p):
+#     '''member_name : IDENTIFIER
+#     | interface_type DOT IDENTIFIER'''
+#     p[0] = regurgitate(p)
+
+# def p_method_body(p):
+#     '''method_body : block
+#     | SEMICOLON'''
+#     p[0] = p[1]
+
+# def p_formal_param_list(p):
+#     '''formal_param_list : fixed_params
+#     | fixed_params COMMA parameter_array
+#     | parameter_array'''
+#     p[0] = regurgitate(p)
+
+# def p_fixed_params(p):
+#     '''fixed_params : fixed_param
+#     | fixed_params fixed_param'''
+#     p[0] = regurgitate(p)
+
+# def p_fixed_param(p):
+#     '''fixed_param : attributes_opt param_modifier_opt type IDENTIFIER default_argument_opt'''
+#     p[0] = regurgitate(p)
+
+# def p_default_argument(p):
+#     '''default_argument : EQUALS expression'''
+#     p[0] = regurgitate(p)
+
+# def p_param_modifier(p):
+#     '''parameter_modifier : REF
+#     | OUT
+#     | THIS'''
+#     p[0] = p[1]
+
+# def p_parameter_array(p):
+#     '''parameter_array : attributes_opt PARAMS array_type IDENTIFIER'''
+#     p[0] = regurgitate(p)
+
+# def p_property_decl(p):
+#     '''property_decl : attributes_opt property_modifiers_opt type member_name OPENING_PARENTHESIS accessor-decls CLOSING_PARENTHESIS'''
+
+#     p[0] = regurgitate(p)
+
+# def p_property_modifiers(p):
+#     '''property_modifiers : property_modifier
+#     | property_modifiers property_modifier'''
+#     p[0] = regurgitate(p)
+
+# def p_property_modifier(p):
+#     '''property_modifier : NEW
+#     | PUBLIC
+#     | PROTECTED
+#     | INTERNAL
+#     | PRIVATE
+#     | STATIC
+#     | VIRTUAL
+#     | SEALED
+#     | OVERRIDE
+#     | ABSTRACT
+#     | EXTERN'''
+#     p[0] = p[1]
+
+
+    
+    
+    
+    
+
+
 ### 2.9 (Arrays)
 def p_array_type(p):
     '''array_type : non_array_type rank_specifiers'''
