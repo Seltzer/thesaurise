@@ -34,8 +34,8 @@ def p_type_name(p):
     p[0] = p[1]
 
 def p_namespace_or_type_name(p):
-    '''namespace_or_type_name : IDENTIFIER type_arg_list_opt
-    | namespace_or_type_name DOT IDENTIFIER type_arg_list_opt
+    '''namespace_or_type_name : IDENTIFIER type_argument_list_opt
+    | namespace_or_type_name DOT IDENTIFIER type_argument_list_opt
     | qualified_alias_member'''
 
     p[0] = regurgitate(p)
@@ -44,8 +44,8 @@ def p_namespace_or_type_name(p):
 ### 2.2
 def p_type(p):
     '''type : value_type
-    | ref_type
-    | type_param'''
+    | reference_type
+    | type_parameter'''
 
     p[0] = p[1]
 
@@ -108,8 +108,8 @@ def p_non_nullable_value_type(p):
 def p_enum_type(p):
     '''enum_type : type_name'''
 
-def p_ref_type(p):
-    '''ref_type : class_type
+def p_reference_type(p):
+    '''reference_type : class_type
     | interface_type
     | array_type
     | delegate_type'''
@@ -156,35 +156,35 @@ def p_delegate_type(p):
 
     p[0] = p[1]
 
-def p_type_arg_list(p):
-    '''type_arg_list : LT type_args GT'''
+def p_type_argument_list(p):
+    '''type_argument_list : LT type_arguments GT'''
 
     p[0] = regurgitate(p)
     
-def p_type_arg_list_opt(p):
-    '''type_arg_list_opt : type_arg_list
+def p_type_argument_list_opt(p):
+    '''type_argument_list_opt : type_argument_list
     | empty'''
 
     p[0] = regurgitate(p)
 
 def p_type_args(p):
-    '''type_args : type_arg
-    | type_args COMMA type_arg'''
+    '''type_arguments : type_argument
+    | type_arguments COMMA type_argument'''
 
     p[0] = regurgitate(p)
 
 def p_type_arg(p):
-    '''type_arg : type'''
+    '''type_argument : type'''
     p[0] = p[1]
     
-def p_type_param(p):
-    '''type_param : IDENTIFIER'''
+def p_type_parameter(p):
+    '''type_parameter : IDENTIFIER'''
     p[0] = p[1]
     
 
 ### 2.3
-def p_var_ref(p):
-    '''var_ref : expression'''
+def p_variable_ref(p):
+    '''variable_reference : expression'''
     p[0] = p[1]
 
 
@@ -229,8 +229,8 @@ def p_argument_name_opt(p):
 
 def p_argument_value(p):
     '''argument_value : expression
-    | REF var_ref
-    | OUT var_ref'''
+    | REF variable_reference
+    | OUT variable_reference'''
 
     p[0] = regurgitate(p)
 
@@ -246,12 +246,12 @@ def p_argument_value(p):
 
 
 def p_simple_name(p):
-    '''simple_name : IDENTIFIER type_arg_list'''
+    '''simple_name : IDENTIFIER type_argument_list'''
 
     p[0] = regurgitate(p)
 
 def p_parenthesized_expr(p):
-    '''parenthesized_expr : OPENING_PARENTHESIS expression CLOSING_PARENTHESIS'''
+    '''parenthesized_expression : OPENING_PARENTHESIS expression CLOSING_PARENTHESIS'''
     p[0] = regurgitate(p)
 
 #def p_member_access
@@ -276,12 +276,12 @@ def p_predefined_type(p):
     p[0] = p[1]
 
 # def p_invocation_expression(p):
-#     '''invocation_expression : primary_expression OPENING_PARENTHESIS arg_list_opt CLOSING_PARENTHESIS'''
+#     '''invocation_expression : primary_expression OPENING_PARENTHESIS argument_list_opt CLOSING_PARENTHESIS'''
 
 #     p[0] = regurgitate(p)
 
 # def p_element_access(p):
-#     '''element_access : primary_no_array_creation_expression OPENING_BRACKET arg_list CLOSING_BRACKET'''
+#     '''element_access : primary_no_array_creation_expression OPENING_BRACKET argument_list CLOSING_BRACKET'''
 
 #     p[0] = regurgitate(p)
 
@@ -294,7 +294,7 @@ def p_this_access(p):
 
 # def p_base_access(p):
 #     '''base_access : BASE DOT IDENTIFIER
-#     | BASE OPENING_BRACKET arg_list CLOSING_BRACKET'''
+#     | BASE OPENING_BRACKET argument_list CLOSING_BRACKET'''
 #     p[0] = regurgitate(p)
 
 
@@ -310,11 +310,11 @@ def p_this_access(p):
 
 ### 2.6
 def p_compilation_unit(p):
-    '''compilation_unit : extern_alias_directives_opt using_directives_opt namespace_member_decls_opt'''
+    '''compilation_unit : extern_alias_directives_opt using_directives_opt namespace_member_declarations_opt'''
     p[0] = regurgitate(p)
 
-def p_namespace_decl(p):
-    '''namespace_decl : NAMESPACE qualified_identifier namespace_body semicolon_opt'''
+def p_namespace_declaration(p):
+    '''namespace_declaration : NAMESPACE qualified_identifier namespace_body semicolon_opt'''
     p[0] = p[1] + ' ' + p[2] + ' ' + p[3] + p[4] + '\n'
 
 def p_qualified_identifier(p):
@@ -324,7 +324,7 @@ def p_qualified_identifier(p):
     p[0] = p[1] if len(p) == 2 else p[1] + '.' + p[3]
 
 def p_namespace_body(p):
-    '''namespace_body : OPENING_BRACE extern_alias_directives_opt using_directives_opt namespace_member_decls_opt CLOSING_BRACE'''
+    '''namespace_body : OPENING_BRACE extern_alias_directives_opt using_directives_opt namespace_member_declarations_opt CLOSING_BRACE'''
     p[0] = '\n{\n' + regurgitate(p, 2, len(p) - 1) + '\n}'
 
 def p_extern_alias_directive(p):
@@ -372,54 +372,54 @@ def p_using_directives_opt(p):
 
     p[0] = '' if len(p) == 1 else regurgitate(p) + '\n'
 
-def p_namespace_member_decl(p):
-    '''namespace_member_decl : namespace_decl
-    | type_decl'''
+def p_namespace_member_declaration(p):
+    '''namespace_member_declaration : namespace_declaration
+    | type_declaration'''
 
     p[0] = p[1]
 
-def p_namespace_member_decls(p):
-    '''namespace_member_decls : namespace_member_decl
-    | namespace_member_decls namespace_member_decl'''
+def p_namespace_member_declarations(p):
+    '''namespace_member_declarations : namespace_member_declaration
+    | namespace_member_declarations namespace_member_declaration'''
 
     p[0] = regurgitate(p)
 
-def p_namespace_member_decls_opt(p):
-    '''namespace_member_decls_opt : namespace_member_decls
+def p_namespace_member_declarations_opt(p):
+    '''namespace_member_declarations_opt : namespace_member_declarations
     | empty'''
 
     p[0] = regurgitate(p)
 
-def p_type_decl(p):
-    '''type_decl : class_decl
-    | struct_decl
-    | interface_decl
-    | enum_decl
-    | delegate_decl
+def p_type_declaration(p):
+    '''type_declaration : class_declaration
+    | struct_declaration
+    | interface_declaration
+    | enum_declaration
+    | delegate_declaration
     '''
 
     p[0] = p[1]
 
 def p_qualified_alias_member(p):
-    '''qualified_alias_member : IDENTIFIER COLON COLON IDENTIFIER type_arg_list_opt'''
+    '''qualified_alias_member : IDENTIFIER COLON COLON IDENTIFIER type_argument_list_opt'''
 
     p[0] = regurgitate(p)
  
 
 
-def p_struct_decl(p):
-    '''struct_decl : STRUCT IDENTIFIER OPENING_BRACE CLOSING_BRACE'''
+def p_struct_declaration(p):
+    '''struct_declaration : STRUCT IDENTIFIER OPENING_BRACE CLOSING_BRACE'''
 
     p[0] = p[1] + ' ' + p[2] + ' ' + p[3] + ' ' + p[4]
     
-def p_interface_decl(p):
-    '''interface_decl : INTERFACE IDENTIFIER OPENING_BRACE CLOSING_BRACE'''
+def p_interface_declaration(p):
+    '''interface_declaration : INTERFACE IDENTIFIER OPENING_BRACE CLOSING_BRACE'''
 
     p[0] = p[1] + ' ' + p[2] + ' ' + p[3] + ' ' + p[4]
 
     
-def p_enum_decl(p):
-    '''enum_decl : ENUM IDENTIFIER OPENING_BRACE CLOSING_BRACE '''
+def p_enum_declaration(p):
+    '''enum_declaration : ENUM IDENTIFIER OPENING_BRACE CLOSING_BRACE '''
 
     p[0] = p[1] + ' ' + p[2] + ' ' + p[3] + ' ' + p[4]
 
@@ -427,8 +427,8 @@ def p_enum_decl(p):
 
 
 ### 2.7 Classes
-def p_class_decl(p):
-    '''class_decl : class_modifiers_opt partial_opt CLASS IDENTIFIER type_param_list_opt class_base_opt type_param_constraints_clauses_opt class_body semicolon_opt'''
+def p_class_declaration(p):
+    '''class_declaration : class_modifiers_opt partial_opt CLASS IDENTIFIER type_parameter_list_opt class_base_opt type_parameter_constraints_clauses_opt class_body semicolon_opt'''
 
     p[0] = regurgitate(p)
 
@@ -459,20 +459,20 @@ def p_class_modifier(p):
 
     p[0] = p[1]
 
-def p_type_param_list_opt(p):
-    '''type_param_list_opt : type_param_list
+def p_type_parameter_list_opt(p):
+    '''type_parameter_list_opt : type_parameter_list
     | empty'''
 
     p[0] = regurgitate(p)
 
-def p_type_param_list(p):
-    '''type_param_list : LT type_params GT'''
+def p_type_parameter_list(p):
+    '''type_parameter_list : LT type_parameters GT'''
 
     p[0] = '<' + p[2] + '>'
 
-def p_type_params(p):
-    '''type_params : attributes_opt type_param
-    | type_params COMMA attributes_opt type_param'''
+def p_type_parameters(p):
+    '''type_parameters : attributes_opt type_parameter
+    | type_parameters COMMA attributes_opt type_parameter'''
 
     p[0] = regurgitate(p)
 
@@ -491,30 +491,30 @@ def p_interface_type_list(p):
     p[0] = regurgitate(p)
 
 def p_type_parameter_constraints_clause(p):
-    '''type_param_constraints_clause : WHERE type_param COLON type_param_constraints'''
+    '''type_parameter_constraints_clause : WHERE type_parameter COLON type_parameter_constraints'''
 
     p[0] = regurgitate(p)
 
-def p_type_param_constraints_clauses(p):
-    '''type_param_constraints_clauses : type_param_constraints_clause
-    | type_param_constraints_clauses type_param_constraints_clause'''
+def p_type_parameter_constraints_clauses(p):
+    '''type_parameter_constraints_clauses : type_parameter_constraints_clause
+    | type_parameter_constraints_clauses type_parameter_constraints_clause'''
 
     p[0] = regurgitate(p)
 
-def p_type_param_constraints_clauses_opt(p):
-    '''type_param_constraints_clauses_opt : type_param_constraints_clauses
+def p_type_parameter_constraints_clauses_opt(p):
+    '''type_parameter_constraints_clauses_opt : type_parameter_constraints_clauses
     | empty'''
 
     p[0] = regurgitate(p)
 
-def p_type_param_constraints(p):
-    '''type_param_constraints : primary_constraint
+def p_type_parameter_constraints(p):
+    '''type_parameter_constraints : primary_constraint
     | secondary_constraints
-    | ctor_constraint
+    | constructor_constraint
     | primary_constraint COMMA secondary_constraints
-    | primary_constraint COMMA ctor_constraint
-    | secondary_constraints COMMA ctor_constraint
-    | primary_constraint COMMA secondary_constraints COMMA ctor_constraint'''
+    | primary_constraint COMMA constructor_constraint
+    | secondary_constraints COMMA constructor_constraint
+    | primary_constraint COMMA secondary_constraints COMMA constructor_constraint'''
 
     p[0] = regurgitate(p)
 
@@ -527,35 +527,35 @@ def p_primary_constraint(p):
 
 def p_secondary_constraints(p):
     '''secondary_constraints : interface_type
-    | type_param
+    | type_parameter
     | secondary_constraints COMMA interface_type
-    | secondary_constraints COMMA type_param'''
+    | secondary_constraints COMMA type_parameter'''
 
     p[0] = regurgitate(p)
 
-def p_ctor_constraint(p):
-    '''ctor_constraint : NEW OPENING_PARENTHESIS CLOSING_PARENTHESIS'''
+def p_constructor_constraint(p):
+    '''constructor_constraint : NEW OPENING_PARENTHESIS CLOSING_PARENTHESIS'''
 
     p[0] = regurgitate(p)
     
 def p_class_body(p):
-    '''class_body : OPENING_BRACE class_member_decls_opt CLOSING_BRACE'''
+    '''class_body : OPENING_BRACE class_member_declarations_opt CLOSING_BRACE'''
 
     p[0] = regurgitate(p)
 
-def p_class_member_decl(p):
-    '''class_member_decl : CONST'''
+def p_class_member_declaration(p):
+    '''class_member_declaration : CONST'''
 
     p[0] = p[1]
 
-def p_class_member_decls(p):
-    '''class_member_decls : class_member_decl
-    | class_member_decls class_member_decl'''
+def p_class_member_declarations(p):
+    '''class_member_declarations : class_member_declaration
+    | class_member_declarations class_member_declaration'''
 
     p[0] = regurgitate(p)
 
-def p_class_member_decls_opt(p):
-    '''class_member_decls_opt : class_member_decls
+def p_class_member_declarations_opt(p):
+    '''class_member_declarations_opt : class_member_declarations
     | empty'''
 
     p[0] = regurgitate(p)
@@ -584,8 +584,8 @@ def p_class_member_decls_opt(p):
 
 #     p[0] = regurgitate(p)
 
-# def p_field_decl(p):
-#     '''field_decl : attributes_opt field_modifiers_opt type variable_declarators SEMICOLON'''
+# def p_field_declaration(p):
+#     '''field_declaration : attributes_opt field_modifiers_opt type variable_declarators SEMICOLON'''
 #     p[0] = regurgitate(p)
 
 # def p_field_modifiers(p):
@@ -621,17 +621,17 @@ def p_class_member_decls_opt(p):
 #     | array_initialiser'''
 #     p[0] = p[1]
 
-# def p_method_decl(p):
-#     '''method_decl : method_header method_body'''
+# def p_method_declaration(p):
+#     '''method_declaration : method_header method_body'''
 #     p[0] = regurgitate(p)
 
 
 # # TODO: This definitely ain't gonna work!!!
 # def p_method_header(p):
 #     '''method_header : attributes_opt method_modifiers_opt
-#     PARTIAL_OPT return_type member_name type_param_list_opt
-#     OPENING_PARENTHESIS formal_param_list_opt CLOSING_PARENTHESIS
-#     type_param_constraints_clauses_opt'''
+#     PARTIAL_OPT return_type member_name type_parameter_list_opt
+#     OPENING_PARENTHESIS formal_parameter_list_opt CLOSING_PARENTHESIS
+#     type_parameter_constraints_clauses_opt'''
 #     p[0] = regurgitate(p)
 
 # def p_method_modifiers(p):
@@ -668,37 +668,37 @@ def p_class_member_decls_opt(p):
 #     | SEMICOLON'''
 #     p[0] = p[1]
 
-# def p_formal_param_list(p):
-#     '''formal_param_list : fixed_params
-#     | fixed_params COMMA parameter_array
+# def p_formal_parameter_list(p):
+#     '''formal_parameter_list : fixed_parameters
+#     | fixed_parameters COMMA parameter_array
 #     | parameter_array'''
 #     p[0] = regurgitate(p)
 
-# def p_fixed_params(p):
-#     '''fixed_params : fixed_param
-#     | fixed_params fixed_param'''
+# def p_fixed_parameters(p):
+#     '''fixed_parameters : fixed_param
+#     | fixed_parameters fixed_parameter'''
 #     p[0] = regurgitate(p)
 
 # def p_fixed_param(p):
-#     '''fixed_param : attributes_opt param_modifier_opt type IDENTIFIER default_argument_opt'''
+#     '''fixed_parameter : attributes_opt parameter_modifier_opt type IDENTIFIER default_argument_opt'''
 #     p[0] = regurgitate(p)
 
 # def p_default_argument(p):
 #     '''default_argument : EQUALS expression'''
 #     p[0] = regurgitate(p)
 
-# def p_param_modifier(p):
+# def p_parameter_modifier(p):
 #     '''parameter_modifier : REF
 #     | OUT
 #     | THIS'''
 #     p[0] = p[1]
 
 # def p_parameter_array(p):
-#     '''parameter_array : attributes_opt PARAMS array_type IDENTIFIER'''
+#     '''parameter_array : attributes_opt PARAMETERS array_type IDENTIFIER'''
 #     p[0] = regurgitate(p)
 
-# def p_property_decl(p):
-#     '''property_decl : attributes_opt property_modifiers_opt type member_name OPENING_PARENTHESIS accessor-decls CLOSING_PARENTHESIS'''
+# def p_property_declaration(p):
+#     '''property_declaration : attributes_opt property_modifiers_opt type member_name OPENING_PARENTHESIS accessor-declarations CLOSING_PARENTHESIS'''
 
 #     p[0] = regurgitate(p)
 
@@ -737,25 +737,25 @@ def p_non_array_type(p):
     '''non_array_type : type'''
 
 def p_array_initialiser(p):
-    '''array_initialiser : OPENING_BRACE var_initialiser_list_opt CLOSING_BRACE
-    | OPENING_BRACE var_initialiser_list COMMA CLOSING_BRACE'''
+    '''array_initialiser : OPENING_BRACE variable_initialiser_list_opt CLOSING_BRACE
+    | OPENING_BRACE variable_initialiser_list COMMA CLOSING_BRACE'''
 
     p[0] = regurgitate(p)
 
-def p_var_initialiser(p):
-    '''var_initialiser : expression
+def p_variable_initialiser(p):
+    '''variable_initialiser : expression
     | array_initialiser'''
 
     p[0] = p[1]
 
-def p_var_initialiser_list(p):
-    '''var_initialiser_list : var_initialiser
-    | var_initialiser_list COMMA var_initialiser'''
+def p_variable_initialiser_list(p):
+    '''variable_initialiser_list : variable_initialiser
+    | variable_initialiser_list COMMA variable_initialiser'''
 
     p[0] = regurgitate(p)
 
-def p_var_initialiser_list_opt(p):
-    '''var_initialiser_list_opt : var_initialiser_list
+def p_variable_initialiser_list_opt(p):
+    '''variable_initialiser_list_opt : variable_initialiser_list
     | empty'''
 
     p[0] = regurgitate(p)
@@ -763,8 +763,8 @@ def p_var_initialiser_list_opt(p):
 
 
 ### 2.12 Delegates
-def p_delegate_decl(p):
-    '''delegate_decl : DELEGATE IDENTIFIER OPENING_BRACE CLOSING_BRACE'''
+def p_delegate_declaration(p):
+    '''delegate_declaration : DELEGATE IDENTIFIER OPENING_BRACE CLOSING_BRACE'''
 
     p[0] = p[1] + ' ' + p[2] + ' ' + p[3] + ' ' + p[4]
 
@@ -857,9 +857,9 @@ def p_delegate_modifier(p):
 #     p[0] = p[1]
 
 # def p_attribute_args(p):
-#     '''attribute_args : OPENING_PARENTHESIS positional_arg_list_opt CLOSING_PARENTHESIS
-#     | OPENING_PARENTHESIS positional_arg_list COMMA named_arg_list CLOSING_PARENTHESIS
-#     | OPENING_PARENTHESIS named_arg_list CLOSING_PARENTHESIS'''
+#     '''attribute_arguments : OPENING_PARENTHESIS positional_argument_list_opt CLOSING_PARENTHESIS
+#     | OPENING_PARENTHESIS positional_argument_list COMMA named_argument_list CLOSING_PARENTHESIS
+#     | OPENING_PARENTHESIS named_argument_list CLOSING_PARENTHESIS'''
 #     p[0] = regurgitate(p)
 
 
@@ -868,22 +868,22 @@ def p_delegate_modifier(p):
 #     | empty'''
 #     p[0] = regurgitate(p)
 
-# def p_positional_arg_list(p):
-#     '''positional_arg_list : positional_arg
-#     | positional_arg_list COMMA positional_arg'''
+# def p_positional_argument_list(p):
+#     '''positional_argument_list : positional_arg
+#     | positional_argument_list COMMA positional_argument'''
 #     p[0] = regurgitate(p)
 
 # def p_positional_arg(p):
-#     '''positional_arg : argument_name_opt attribute_argument_expression'''
+#     '''positional_argument : argument_name_opt attribute_argument_expression'''
 #     p[0] = regurgitate(p)
 
-# def p_named_arg_list(p):
-#     '''named_arg_list : named_arg
-#     | named_arg_list COMMA named_arg'''
+# def p_named_argument_list(p):
+#     '''named_argument_list : named_arg
+#     | named_argument_list COMMA named_argument'''
 #     p[0] = regurgitate(p)
 
 # def p_named_arg(p):
-#     '''named_arg : IDENTIFIER EQUALS attribute_argument_expression'''
+#     '''named_argument : IDENTIFIER EQUALS attribute_argument_expression'''
 #     p[0] = regurgitate(p)
 
 # def p_attribute_argument_expression(p):
